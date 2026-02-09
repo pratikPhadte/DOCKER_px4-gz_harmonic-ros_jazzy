@@ -57,6 +57,18 @@ ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US:en
 ENV LC_ALL=en_US.UTF-8
 
+# ── QGroundControl ───────────────────────────────────────────────────────
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    fuse \
+    libfuse2 \
+    libxcb-xinerama0 \
+    libxkbcommon-x11-0 \
+    libxcb-cursor0 \
+    && rm -rf /var/lib/apt/lists/* \
+    && wget -q https://d176tv9ibo4jno.cloudfront.net/latest/QGroundControl-x86_64.AppImage \
+     -O /opt/QGroundControl.AppImage \
+    && chmod +x /opt/QGroundControl.AppImage
+
 # ── Gazebo Harmonic ──────────────────────────────────────────────────────────
 RUN curl -fsSL https://packages.osrfoundation.org/gazebo.gpg \
         -o /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg \

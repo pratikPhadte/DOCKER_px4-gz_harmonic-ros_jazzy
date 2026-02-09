@@ -29,7 +29,7 @@ services:
 
     # ── Networking ─────────────────────────────────────────────────────────
     network_mode: host
-    # If you prefer bridge networking, comment out network_mode and use:
+    # If you prefer bridge networking, comment out network_mode and use: When you set Networking mode to host, all host ports are available to the container.
     # ports:
     #   - "14540:14540/udp"   # MAVSDK / MAVROS
     #   - "14550:14550/udp"   # QGroundControl
@@ -38,13 +38,13 @@ services:
 
     # ── GPU passthrough (NVIDIA) ───────────────────────────────────────────
     # Uncomment the following for NVIDIA GPU acceleration:
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - driver: nvidia
-    #           count: all
-    #           capabilities: [gpu]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
 
 volumes:
   px4_build:

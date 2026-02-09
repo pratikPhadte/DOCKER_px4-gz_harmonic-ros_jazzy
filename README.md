@@ -2,6 +2,9 @@
 
 A Docker container for PX4 SITL simulation with Gazebo Harmonic and ROS 2 Jazzy on Ubuntu 24.04.
 
+
+![alt text](PX4_GZ_QGC.png)
+
 ## What's inside
 
 | Component              | Version / Branch       |
@@ -48,8 +51,13 @@ docker compose exec px4_gz bash
 cd ~/PX4-Autopilot
 make px4_sitl gz_x500
 ```
-
 Other vehicle targets: `gz_x500_depth`, `gz_x500_mono_cam`, `gz_rc_cessna`, `gz_standard_vtol`, etc.
+
+### 1A. Launch QGC to control the drone.
+
+```bash
+/opt/QGroundControl.AppImage --appimage-extract-and-run
+```
 
 ### 2. Start Micro XRCE-DDS Agent (new terminal)
 
