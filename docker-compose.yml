@@ -1,0 +1,50 @@
+# =============================================================================
+# docker compose up --build        → build & start
+# docker compose exec px4_gz bash  → open a shell inside
+# =============================================================================
+services:
+  px4_gz:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: px4_gz
+    privileged: true
+    stdin_open: true
+    tty: true
+
+    # ── X11 display forwarding ─────────────────────────────────────────────
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      # Uncomment for NVIDIA GPU
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      # Persist PX4 build artifacts between restarts
+      - px4_build:/home/user/PX4-Autopilot/build
+      # Mount a local workspace for your own code (optional)
+      # - ./workspace:/home/user/workspace
+
+    # ── Networking ─────────────────────────────────────────────────────────
+    network_mode: host
+    # If you prefer bridge networking, comment out network_mode and use:
+    # ports:
+    #   - "14540:14540/udp"   # MAVSDK / MAVROS
+    #   - "14550:14550/udp"   # QGroundControl
+    #   - "18570:18570/udp"   # Gazebo
+    #   - "8888:8888/udp"     # Micro XRCE-DDS
+
+    # ── GPU passthrough (NVIDIA) ───────────────────────────────────────────
+    # Uncomment the following for NVIDIA GPU acceleration:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+
+volumes:
+  px4_build:
